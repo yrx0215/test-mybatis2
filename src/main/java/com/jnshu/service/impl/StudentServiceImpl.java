@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -27,12 +28,8 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public boolean updateStuById(Integer id,String name, Integer qq, String type,
-                               String time, String school, Integer onlineNumber,
-                               String link, String wish, String teacher,
-                               String whereKonw, Long createAt, Long updateAt) {
-        return studentMapper.updateStuById(id,name, qq,type,time, school, onlineNumber,
-                link,wish,teacher,whereKonw,createAt,updateAt);
+    public boolean updateStuTypeById(Integer id,String type, Long updateAt) {
+        return studentMapper.updateStuTypeById(id,type,updateAt);
 
     }
 
@@ -43,9 +40,9 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public List<Student> selectStuAll() {
-        List<Student> list = studentMapper.selectStuAll();
-        return list;
+    public Student selectStuAll() {
+        Student student = studentMapper.selectStuAll();
+        return student;
     }
 
     @Override
@@ -59,6 +56,8 @@ public class StudentServiceImpl implements StudentService{
         Student student = studentMapper.selectStuByOnlineNumber(onlineNumber);
         return student;
     }
+
+
 
 
 }

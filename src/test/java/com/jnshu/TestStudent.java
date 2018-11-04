@@ -2,6 +2,10 @@ package com.jnshu;
 
 import com.jnshu.beans.Student;
 import com.jnshu.service.impl.StudentServiceImpl;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,45 +13,89 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
 public class TestStudent {
+
+    Logger logger = Logger.getLogger(TestStudent.class);
     @Autowired
     StudentServiceImpl studentService;
 
-//    @Test
-//    public void testadd() {
-//
-//    }
+
+    @Before
+    public void testBefore() {
+        logger.info("Test Start");
+    }
+
+    @After
+    public void testAfter() {
+        logger.info("Test End");
+    }
 
     @Test
     public void testSelectAll() {
-        List list= studentService.selectStuAll();
-        System.out.println("list : " + list);
+        Long startTime = System.currentTimeMillis();
+        Student student= null;
+        try {
+            student = studentService.selectStuAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("SelectFailed ");
+        }
+        logger.info(student);
+        logger.info(System.currentTimeMillis() - startTime);
+
     }
 
     @Test
     public void testSelectStuById() {
-        Student student = studentService.selectStuById(1);
-        System.out.println("student : " + student);
+        Long startTime = System.currentTimeMillis();
+        Student student = null;
+        try {
+            student = studentService.selectStuById(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("SelectFailed ");
+        }
+        logger.info(student);
+        logger.info(System.currentTimeMillis() - startTime);
     }
 
     @Test
     public void testSelectByName() {
-        Student student = studentService.selectStuByName("yangruoxi");
-        System.out.println(student);
+        Long startTime = System.currentTimeMillis();
+        Student student = null;
+        try {
+            student = studentService.selectStuByName("yangruoxi");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("SelectFailed ");
+        }
+        logger.info(student);
+        logger.info( System.currentTimeMillis() - startTime);
     }
 
     @Test
     public void testSelectByOnlineNumber() {
-        Student student = studentService.selectStuByOnlineNumber(51460);
-        System.out.println(student);
+        Long startTime = System.currentTimeMillis();
+        Student student = null;
+        try {
+            student = studentService.selectStuByOnlineNumber(51460);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("SelectFailed ");
+        }
+
+        logger.info(student);
+        logger.info( System.currentTimeMillis() - startTime);
     }
     @Test
     public void  testAdd() {
-
+        Long startTime = System.currentTimeMillis();
         Student student = new Student();
         student.setName("teststu");
         student.setQq(111111);
@@ -59,9 +107,14 @@ public class TestStudent {
         student.setType("java");
         student.setWhereKonw("bihu");
         student.setWish("upup");
-
-        studentService.addStu(student);
-
+        try {
+            studentService.addStu(student);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("addFailed ");
+        }
+        logger.info("success");
+        logger.info( System.currentTimeMillis() - startTime);
 
     }
 
@@ -69,16 +122,30 @@ public class TestStudent {
 
     @Test
     public void testdelStu() {
-        boolean i = studentService.delStuById(999);
-        System.out.println("是否删除成功: " + i);
+        boolean i = false;
+        try {
+            i = studentService.delStuById(999);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("deleteFailed");
+        }
+        logger.info("success");
+        logger.info(i);
     }
 
     @Test
     public void testUpdate() {
-        boolean i =  studentService.updateStuById(3,"updateTest",123456,"web",
-                "20181111","ncut",543221,
-                "baidu","upup","zjz",
-                "逼乎",null,null);
-        System.out.println("是否更新成功 : " + i);
+        Long time = System.currentTimeMillis();
+        boolean i = false;
+        try {
+            i = studentService.updateStuTypeById(3,"web",time);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("UpdateFailed");
+        }
+        logger.info("success");
+        logger.info(i);
     }
+
+
 }

@@ -16,17 +16,7 @@
     <!--开启组件扫描,确定扫描的包-->
     <context:component-scan base-package="com.jnshu"/>
 
-    <!--配置外部文件-->
-    <!--<context:property-placeholder location="classpath:db.properties"/>-->
 
-    <!--配置数据库连接-->
-
-   <!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="${driver}"></property>
-        <property name="jdbcUrl" value="${url}"></property>
-        <property name="user" value="${username}"></property>
-        <property name="password" value="${password}"></property>
-    </bean>-->
 
     <!--c3p0连接池-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -52,19 +42,11 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--找到mybatis中的配置文件-->
         <property name="configLocation" value="mybatis-config.xml"/>
-        <!---->
+        <!--核心配置文件-->
         <property name="dataSource" ref="dataSource"/>
+        <!--映射文件-->
+        <property name="mapperLocations" value="classpath:mapper/StudentMapper.xml"/>
     </bean>
-
-    <!--mapper 配置-->
-    <!--<bean   id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
-        <!--&lt;!&ndash;配置上述的sqlsessionfactory&ndash;&gt;-->
-        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
-        <!--&lt;!&ndash;找到项目中的usermapper接口&ndash;&gt;-->
-        <!--<property name="mapperInterface" value="com.jnshu.dao.UserMapper"/>-->
-        <!--&lt;!&ndash;<property name="basePackage" value="com.jnshu.dao"/>&ndash;&gt;-->
-    <!--</bean>-->
-
     <bean   id="studentMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <!--配置上述的sqlsessionfactory-->
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>

@@ -16,44 +16,70 @@
     <!--</resultMap>-->
 
     <!--public List<Student> selectStuAll();-->
-    <select id="selectStuAll" resultType="hashmap">
+    <resultMap id="student" type="com.jnshu.beans.Student">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="qq" property="qq"/>
+        <result column="type" property="type"/>
+        <result column="school" property="school"/>
+        <result column="online_number" property="onlineNumber"/>
+        <result column="link" property="link"/>
+        <result column="wish" property="wish"/>
+        <result column="teacher" property="teacher"/>
+        <result column="where_konw" property="whereKonw"/>
+        <result column="create_at" property="createAt"/>
+        <result column="update_at" property="updateAt"/>
+    </resultMap>
+
+    <select id="selectStuAll" resultType="com.jnshu.beans.Student">
         select id,name,qq,type,time,school,online_number,link,wish,teacher,where_konw,create_at,update_at FROM  student
     </select>
 
     <!--public User selectUserById(Integer id);-->
-    <select id="selectStuById"  resultType="com.jnshu.beans.Student" >
+    <select id="selectStuById"  resultMap="student" >
         select id,name,qq,type,time,school,online_number,link,wish,teacher,where_konw,create_at,update_at FROM  student where id = #{id}
     </select>
 
-    <select id="selectStuByName"  resultType="com.jnshu.beans.Student" >
+    <select id="selectStuByName"  resultMap="student" >
         select id,name,qq,type,time,school,online_number,link,wish,teacher,where_konw,create_at,update_at FROM  student where name = #{name}
     </select>
 
-    <select id="selectStuByOnlineNumber"  resultType="com.jnshu.beans.Student" >
+    <select id="selectStuByOnlineNumber"  resultMap="student" >
         select id,name,qq,type,time,school,online_number,link,wish,teacher,where_konw,create_at,update_at FROM  student where online_number = #{onlineNumber}
     </select>
+
     <!--updateStuBy-->
-    <update id="updateStuById" >
+    <update id="updateStuTypeById" parameterType="list" >
         UPDATE  student SET
-        name  = #{name},
-        qq = #{qq},
         type = #{type},
-        time = #{time},
-        school = #{school},
-        online_number = #{onlineNumber},
-        link = #{link},
-        wish = #{wish},
-        teacher = #{teacher},
-        where_konw = #{whereKonw},
-        create_at = #{createAt},
         update_at = #{updateAt}
         where id = #{id}
+    </update>
+
+    <update id="batchUpdate" parameterType="java.util.Map">
+        <foreach collection="list" separator=";" item="student">
+            UPDATE student SET
+            name  = #{name},
+            qq = #{qq},
+            type = #{type},
+            time = #{time},
+            school = #{school},
+            online_number = #{onlineNumber},
+            link = #{link},
+            wish = #{wish},
+            teacher = #{teacher},
+            where_konw = #{whereKonw},
+            create_at = #{createAt},
+            update_at = #{updateAt}
+            where id = #{id}
+        </foreach>
     </update>
 
     <!--public void addStu(Student student)-->
     <insert id="addStu" >
         INSERT  INTO student VALUES (#{id},#{name},#{qq},#{type},#{time},#{school},#{onlineNumber},#{link},#{wish},#{teacher},#{whereKonw},#{createAt},#{updateAt})
     </insert>
+
 
     <!--public void delStuById(Integer Id)-->
     <delete id="delStuById" >
